@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>512.1</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>-- *****************************************************************************-- * Created By   : Ravi Kant Singh-- * Created On  : 2024-01-26-- * Modified On : -- * Description : AppleScript to choose header rows and header columns and freeze -- *               for reviewing.-- *-- *               Highlight the Numbers App-- *               Change the header row count-- *               Change the header column count-- *               Freeze header rows and columns for viewing for opened file.-- *****************************************************************************global APP_NAMEglobal headerRowCountglobal headerColumnCounton run {input, parameters}	checkAndInitializeGlobalDefaults()		tell application APP_NAME		activate	end tell		getUserInputs(APP_NAME)		setFreezeHeaderRowsAndColumnsInFinderApp()end run-- If not set then set a default value to the global variableon checkAndInitializeGlobalDefaults()	-- App Name	set APP_NAME to "Numbers"		-- header row count	try		headerRowCount	on error errMsg number num		if num is -2753 then			set headerRowCount to "3"		end if	end try		-- header column count	try		headerColumnCount	on error errMsg number num		if num is -2753 then			set headerColumnCount to "3"		end if	end tryend checkAndInitializeGlobalDefaults-- get user inputson getUserInputs(appName)	tell application appName		-- header row count		set headerRowCount to (display dialog "Enter header count: " default answer headerRowCount buttons {"Cancel", "Set"} default button "Set" with title "Customise Numbers File View!")'s text returned				-- header column count		set headerColumnCount to (display dialog "Enter column count: " default answer headerColumnCount buttons {"Cancel", "Set"} default button "Set" with title "Customise Numbers File View!")'s text returned	end tellend getUserInputson setFreezeHeaderRowsAndColumnsInFinderApp()	tell application "System Events" to tell process "Numbers"		set frontmost to true				-- To ensure the data table has focus and menus required for freeze header/column are available		tell menu bar item "Edit" of menu bar 1			click			click menu item "Deselect All" of menu 1						click			click menu item "Select All" of menu 1		end tell				tell menu bar item "Table" of menu bar 1						tell menu item "Header Rows" of menu 1				click				try					click menu item headerRowCount of menu 1				end try			end tell						click			click menu item "Freeze Header Rows" of menu 1						tell menu item "Header Columns" of menu 1				click				try					click menu item headerColumnCount of menu 1				end try			end tell						click			click menu item "Freeze Header Columns" of menu 1		end tell	end tellend setFreezeHeaderRowsAndColumnsInFinderApp</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>3D04A1CB-DE21-41EA-A359-CAFC0A4DA868</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>41BCADC7-649E-445C-9588-B73D022BFF52</string>
+				<key>UUID</key>
+				<string>5EF64933-45F5-4751-B426-DA2353AFF39D</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>557.000000:823.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.application</string>
+	</dict>
+</dict>
+</plist>
